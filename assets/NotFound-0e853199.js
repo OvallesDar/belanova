@@ -1,0 +1,1 @@
+import{j as t}from"./index-305342dd.js";import{H as o}from"./Headers-4b2dc6b4.js";const e={image:"https://ovarey2-0.s3.eu-west-3.amazonaws.com/belanova/construction.jpg",title:"Oops!",subtitle:"Lo sentimos, la página que esta buscando no existe.",subtitle1:"Error code: 404",button:"Inicio",link:"/"};function n(){return t.jsx(o,{left:!1,data:e})}export{n as default};
