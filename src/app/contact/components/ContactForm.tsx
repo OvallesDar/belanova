@@ -1,29 +1,16 @@
 "use client";
 import { motion } from "framer-motion";
+import useForm from "@/hooks/useForm";
+import Loading from "@/components/Loading";
+import Dialog from "@/components/Dialog";
 
-import React, { useRef } from "react";
-import emailjs from "@emailjs/browser";
+const NEXT_PUBLIC_SERVICE = "service_jvd3u4k";
+const NEXT_PUBLIC_TEMPLATE = "template_87n860m";
+const NEXT_PUBLIC_KEY = "DgQ_rN9KDCYyErWFY";
 
 export default function ContactForm() {
-  const form = useRef<HTMLFormElement>(null);
-
-  const sendEmail = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if(form.current)
-      emailjs
-        .sendForm('service_jvd3u4k', 'template_87n860m', form.current, {
-          publicKey: 'DgQ_rN9KDCYyErWFY',
-        })
-        .then(
-          () => {
-            alert("Gracias por tu mensaje, pronto nos pondremos en contacto contigo.")
-            form.current?.reset();
-          },
-          (error) => {
-            console.log('FAILED...', error.text);
-          },
-        );
-  };
+  const { loading, successMessage, refForm, sendEmail, handleSuccesMessage } =
+    useForm({ NEXT_PUBLIC_SERVICE, NEXT_PUBLIC_TEMPLATE, NEXT_PUBLIC_KEY });
 
   return (
     <div className="overflow-hidden" id="contactForm">
@@ -48,8 +35,16 @@ export default function ContactForm() {
             cotizaciones.
           </p>
         </div>
-        <div className="w-full">
-          <form ref={form} onSubmit={sendEmail} className="flex flex-col gap-2">
+        <div className="w-full relative">
+          {loading ? <Loading /> : null}
+          {successMessage ? (
+            <Dialog handleSuccesMessage={handleSuccesMessage} />
+          ) : null}
+          <form
+            ref={refForm}
+            onSubmit={sendEmail}
+            className="flex flex-col gap-2"
+          >
             <input
               required
               className="border-slate-500 border-solid border-[1px] p-2 rounded-sm"
